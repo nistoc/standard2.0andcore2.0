@@ -9,7 +9,7 @@ namespace WebApplicationCore2.Controllers
     {
         public SubController()
         {
-            new Class1();
+            var tt = new Class1();
         }
 
         ////todo: реализовать проверку токена приходящего в "Запросы на подтверждение" (https://developers.facebook.com/docs/graph-api/webhooks#callback)
