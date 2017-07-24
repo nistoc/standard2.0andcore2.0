@@ -1,6 +1,6 @@
 namespace Hub.FacebookMessenger.Models
 {
-    public class WebhookMessagingSender
+    public class FacebookMessagingPartner
     {
         public string id { get; set; }
     }

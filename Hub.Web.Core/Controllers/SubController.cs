@@ -1,5 +1,8 @@
-﻿using Hub.Contracts;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Hub.Contracts;
 using Hub.FacebookMessenger.Models;
+using Hub.FacebookMessenger.Providers;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -11,6 +14,13 @@ namespace Hub.Web.Core.Controllers
     {
 
         private string PathToCatalog => $@"{new HostingEnvironment().WebRootPath}files\";
+        private readonly IFacebookMessengerProvider _facebookMessengerProvider;
+
+        public SubController(IFacebookMessengerProvider facebookMessengerProvider)
+        {
+            _facebookMessengerProvider = facebookMessengerProvider;
+        }
+
 
         //todo: реализовать проверку токена приходящего в "Запросы на подтверждение" (https://developers.facebook.com/docs/graph-api/webhooks#callback)
         /// <summary>
@@ -48,6 +58,46 @@ namespace Hub.Web.Core.Controllers
         public IActionResult Subscription([FromBody]NewWebhookSubscription subs)
         {
             FilesService.CreateFile(PathToCatalog, "web_hook_subscription", JsonConvert.SerializeObject(subs), "json");
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("sendextended")]
+        public async Task<IActionResult> SendExtended()
+        {
+            var recipientId = "1603826823023833";
+
+
+            await _facebookMessengerProvider.SendTypingOnAsync(recipientId);
+            Thread.Sleep(1500);
+            await _facebookMessengerProvider.SendMarkSeenAsync(recipientId);
+            Thread.Sleep(1500);
+            await _facebookMessengerProvider.SendMessageAsync(recipientId, "hello, world!");
+            Thread.Sleep(1500);
+            await _facebookMessengerProvider.SendTypingOffAsync(recipientId);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("send")]
+        public async Task<IActionResult> Send()
+        {
+            var recipientId = "1603826823023833";
+
+            await _facebookMessengerProvider.SendMessageAsync(recipientId, "hello, world!");
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("sendlocation")]
+        public async Task<IActionResult> SendLocation()
+        {
+            var recipientId = "1603826823023833";
+
+            await _facebookMessengerProvider.SendMessageLocationAsync(recipientId);
+
             return Ok();
         }
     }

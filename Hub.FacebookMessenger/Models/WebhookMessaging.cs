@@ -3,19 +3,19 @@ using System;
 namespace Hub.FacebookMessenger.Models
 {
     /// <summary>
-    /// Message Received Callback
+    /// Message received from Callback
     /// </summary>
     public class WebhookMessaging
     {
         /// <summary>
         /// "id":"USER_ID"
         /// </summary>
-        public WebhookMessagingSender sender { get; set; }
+        public FacebookMessagingPartner sender { get; set; }
 
         /// <summary>
         /// "id":"PAGE_ID"
         /// </summary>
-        public WebhookMessagingSender recipient { get; set; }
+        public FacebookMessagingPartner recipient { get; set; }
 
         /// <summary>
         ///  огда отправлено обновление (не при внесении изменени€, которое активировало это обновление).
