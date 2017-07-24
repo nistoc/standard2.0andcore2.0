@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26711.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hub.FacebookMessenger", "Hub.FacebookMessenger\Hub.FacebookMessenger.csproj", "{DDFD108A-2058-4674-86E3-AE2C5E71461A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hub.FacebookWebhookNet", "Hub.FacebookWebhookNet\Hub.FacebookWebhookNet.csproj", "{4C596C04-98AC-4D86-B32D-EC88CC2F61C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hub.Contracts", "Hub.Contracts\Hub.Contracts.csproj", "{E48D3AA7-6E9B-43B1-B948-ADC67D69C072}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hub.Web.Core", "Hub.Web.Core\Hub.Web.Core.csproj", "{2E914206-B98C-4465-AC64-6AA48ADEFCA0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDFD108A-2058-4674-86E3-AE2C5E71461A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDFD108A-2058-4674-86E3-AE2C5E71461A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDFD108A-2058-4674-86E3-AE2C5E71461A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDFD108A-2058-4674-86E3-AE2C5E71461A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C596C04-98AC-4D86-B32D-EC88CC2F61C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C596C04-98AC-4D86-B32D-EC88CC2F61C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C596C04-98AC-4D86-B32D-EC88CC2F61C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C596C04-98AC-4D86-B32D-EC88CC2F61C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E48D3AA7-6E9B-43B1-B948-ADC67D69C072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E48D3AA7-6E9B-43B1-B948-ADC67D69C072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E48D3AA7-6E9B-43B1-B948-ADC67D69C072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E48D3AA7-6E9B-43B1-B948-ADC67D69C072}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E914206-B98C-4465-AC64-6AA48ADEFCA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E914206-B98C-4465-AC64-6AA48ADEFCA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E914206-B98C-4465-AC64-6AA48ADEFCA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E914206-B98C-4465-AC64-6AA48ADEFCA0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7CCC8E3-4660-474D-A029-DB31E6E1E479}
+	EndGlobalSection
+EndGlobal
