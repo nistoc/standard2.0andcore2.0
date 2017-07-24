@@ -1,8 +1,10 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Hub.Contracts;
 using Hub.FacebookMessenger.Models;
 using Hub.FacebookMessenger.Providers;
+using Hub.FacebookMessenger.Send;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,7 +14,7 @@ namespace Hub.Web.Core.Controllers
     [Route("webhook")]
     public class SubController : ControllerBase
     {
-
+        string recipientId = "1603826823023833";
         private string PathToCatalog => $@"{new HostingEnvironment().WebRootPath}files\";
         private readonly IFacebookMessengerProvider _facebookMessengerProvider;
 
@@ -62,41 +64,56 @@ namespace Hub.Web.Core.Controllers
         }
 
         [HttpGet]
-        [Route("sendextended")]
-        public async Task<IActionResult> SendExtended()
-        {
-            var recipientId = "1603826823023833";
-
-
-            await _facebookMessengerProvider.SendTypingOnAsync(recipientId);
-            Thread.Sleep(1500);
-            await _facebookMessengerProvider.SendMarkSeenAsync(recipientId);
-            Thread.Sleep(1500);
-            await _facebookMessengerProvider.SendMessageAsync(recipientId, "hello, world!");
-            Thread.Sleep(1500);
-            await _facebookMessengerProvider.SendTypingOffAsync(recipientId);
-
-            return Ok();
-        }
-
-        [HttpGet]
         [Route("send")]
         public async Task<IActionResult> Send()
         {
-            var recipientId = "1603826823023833";
-
-            await _facebookMessengerProvider.SendMessageAsync(recipientId, "hello, world!");
+            await _facebookMessengerProvider.SendTextOnlyAsync(recipientId, "hello, world!", "callback: Send Text Only");
 
             return Ok();
         }
 
         [HttpGet]
-        [Route("sendlocation")]
+        [Route("sendtyping")]
+        public async Task<IActionResult> SendTyping()
+        {
+            await _facebookMessengerProvider.SendTypingOnAsync(recipientId);
+            Thread.Sleep(3000);
+            await _facebookMessengerProvider.SendTypingOffAsync(recipientId);
+            Thread.Sleep(1500);
+            await _facebookMessengerProvider.SendTextOnlyAsync(recipientId, "We have written a message", "Send Typing");
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("sendquickrepliestext")]
+        public async Task<IActionResult> SendQuickRepliesText()
+        {
+
+            var quickReplies = new List<FacebookMessageContentQuickReplyText>
+            {
+                new FacebookMessageContentQuickReplyText
+                {
+                    payload = "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED",
+                    title = "Red"
+                },
+                new FacebookMessageContentQuickReplyText
+                {
+                    payload = "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN",
+                    title = "Green"
+                }
+            };
+
+            await _facebookMessengerProvider.SendQuickRepliesTextsAsync(recipientId, "Please, select the answer", "callback: Send Quick Replies as Texts", quickReplies);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("sendquickreplieslocation")]
         public async Task<IActionResult> SendLocation()
         {
-            var recipientId = "1603826823023833";
-
-            await _facebookMessengerProvider.SendMessageLocationAsync(recipientId);
+            await _facebookMessengerProvider.SendQuickRepliesLocationAsync(recipientId, "Please share your location", "callback: Send Quick Replies as Location");
 
             return Ok();
         }

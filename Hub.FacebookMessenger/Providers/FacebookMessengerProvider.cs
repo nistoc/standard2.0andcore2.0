@@ -22,63 +22,61 @@ namespace Hub.FacebookMessenger.Providers
         }
 
         /// <summary>
-        /// Отправить сообщение
+        /// Начали печатать
         /// </summary>
         public async Task<string> SendTypingOnAsync(string recipientId)
         {
-            return await SendMessage(new FacebookPushSenderAction(recipientId, FacebookSenderActionType.typing_on).ToString());
+            return await PerformTheSending(new FacebookPushSenderAction(recipientId, FacebookSenderActionType.typing_on).ToString());
         }
 
         /// <summary>
-        /// Отправить сообщение
+        /// Закончили печатать
         /// </summary>
         public async Task<string> SendTypingOffAsync(string recipientId)
         {
-            return await SendMessage(new FacebookPushSenderAction(recipientId, FacebookSenderActionType.typing_off).ToString());
+            return await PerformTheSending(new FacebookPushSenderAction(recipientId, FacebookSenderActionType.typing_off).ToString());
         }
 
         /// <summary>
-        /// Отправить сообщение
+        /// Посмотрели сообщение
         /// </summary>
         public async Task<string> SendMarkSeenAsync(string recipientId)
         {
-            return await SendMessage(new FacebookPushSenderAction(recipientId, FacebookSenderActionType.mark_seen).ToString());
+            return await PerformTheSending(new FacebookPushSenderAction(recipientId, FacebookSenderActionType.mark_seen).ToString());
         }
 
         /// <summary>
-        /// Отправить сообщение
+        /// Отправить обычное текстове сообщение
         /// </summary>
-        public async Task<string> SendMessageAsync(string recipientId, string messageText)
+        public async Task<string> SendTextOnlyAsync(string recipientId, string messageText, string callBackMatadata)
         {
             var reply = new FacebookPushMessageViaText(recipientId, messageText);
-            reply.message.metadata = "test_metadata";
-            reply.message.quick_replies = new FacebookMessageContentQuickReplyTextList
-            {
-                Items = new List<FacebookMessageContentQuickReplyText>
-                    {
-                        new FacebookMessageContentQuickReplyText
-                        {
-                            payload = "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED",
-                            title = "Red"
-                        },
-                        new FacebookMessageContentQuickReplyText
-                        {
-                            payload = "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN",
-                            title = "Green"
-                        }
-                    }
-            };
-
-            return await SendMessage(reply.ToString());
+            reply.message.metadata = callBackMatadata;
+            return await PerformTheSending(reply.ToString());
         }
 
         /// <summary>
-        /// Отправить сообщение
+        /// Отправить текстовое сообщение с текстовыми вариантами ответа
         /// </summary>
-        public async Task<string> SendMessageLocationAsync(string recipientId)
+        public async Task<string> SendQuickRepliesTextsAsync(string recipientId, string messageText, string callBackMatadata, List<FacebookMessageContentQuickReplyText> quickReplies)
         {
-            var reply = new FacebookPushMessageViaText(recipientId, "Please share your location");
-            reply.message.metadata = "some webhooking metadata";
+            var reply = new FacebookPushMessageViaText(recipientId, messageText);
+            reply.message.metadata = callBackMatadata;
+            reply.message.quick_replies = new FacebookMessageContentQuickReplyTextList
+            {
+                Items = quickReplies
+            };
+
+            return await PerformTheSending(reply.ToString());
+        }
+
+        /// <summary>
+        /// Отправить текстовое сообщение с запросом локации
+        /// </summary>
+        public async Task<string> SendQuickRepliesLocationAsync(string recipientId, string messageText, string callBackMatadata)
+        {
+            var reply = new FacebookPushMessageViaText(recipientId, messageText);
+            reply.message.metadata = callBackMatadata;
             reply.message.quick_replies = new FacebookMessageContentQuickReplyLocationList
             {
                 Items = new List<FacebookMessageContentQuickReplyLocation>
@@ -87,10 +85,10 @@ namespace Hub.FacebookMessenger.Providers
                 }
             };
 
-            return await SendMessage(reply.ToString());
+            return await PerformTheSending(reply.ToString());
         }
 
-        private async Task<string> SendMessage(string messageContent)
+        private async Task<string> PerformTheSending(string messageContent)
         {
             using (var client = new HttpClient())
             {
@@ -120,5 +118,6 @@ namespace Hub.FacebookMessenger.Providers
                 return $"{JsonConvert.SerializeObject(responseMessage.StatusCode)}";
             }
         }
+
     }
 }

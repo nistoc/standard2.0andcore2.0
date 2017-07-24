@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Hub.FacebookMessenger.Send;
 
 namespace Hub.FacebookMessenger.Providers
 {
@@ -8,25 +10,33 @@ namespace Hub.FacebookMessenger.Providers
     public interface IFacebookMessengerProvider
     {
         /// <summary>
-        /// Отправить сообщение
+        /// Начали печатать
         /// </summary>
         Task<string> SendTypingOnAsync(string recipientId);
 
         /// <summary>
-        /// Отправить сообщение
+        /// Закончили печатать
         /// </summary>
         Task<string> SendTypingOffAsync(string recipientId);
 
         /// <summary>
-        /// Отправить сообщение
+        /// Посмотрели сообщение
         /// </summary>
         Task<string> SendMarkSeenAsync(string recipientId);
 
         /// <summary>
-        /// Отправить сообщение
+        /// Отправить обычное текстове сообщение
         /// </summary>
-        Task<string> SendMessageAsync(string recipientId, string messageText);
+        Task<string> SendTextOnlyAsync(string recipientId, string messageText, string callBackMatadata);
 
-        Task<string> SendMessageLocationAsync(string recipientId);
+        /// <summary>
+        /// Отправить текстовое сообщение с текстовыми вариантами ответа
+        /// </summary>
+        Task<string> SendQuickRepliesTextsAsync(string recipientId, string messageText, string callBackMatadata, List<FacebookMessageContentQuickReplyText> quickReplies);
+
+        /// <summary>
+        /// Отправить текстовое сообщение с запросом локации
+        /// </summary>
+        Task<string> SendQuickRepliesLocationAsync(string recipientId, string messageText, string callBackMatadata);
     }
 }
